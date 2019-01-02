@@ -1,20 +1,21 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const JWT = require('jsonwebtoken')
-const multer = require('multer')
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-const app = express()
+const auth = require("./routes/api/authentication");
 
-app.use(bodyParser.json())
+const app = express();
 
-const db = require('./config/keys').mongoURI
+app.use(bodyParser.json());
+
+const db = require("./config/keys").mongoURI;
 
 mongoose
-    .connect(db)
-    .then(()=> console.log('MongoDB Connected'))
-    .catch(err => console.log(err))
+  .connect(db)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
+app.use("/api/auth", auth);
 
-const port = process.env.PORT || 5000
-app.listen(port, () => console.log(`Server Listening on PORT : ${port}`))
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server Listening on PORT : ${port}`));
