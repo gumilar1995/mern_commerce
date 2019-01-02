@@ -27,22 +27,34 @@ router.post("/register", (req, res) => {
 // @access Public
 router.post("/login", (req, res) => {
   Auth.findOne(
-    { username: req.body.username, password: req.body.password },
+    {
+      username: req.body.username
+    },
     (err, user) => {
       if (err) {
         res.json({ message: err, success: false });
       }
       if (user) {
-        jwt.sign({ user }, "secretkey", { expiresIn: "1d" }, (err, token) => {
-          err
-            ? res.json({ message: err })
-            : res.json({
-                message: "Authenticated",
-                token,
-                user,
-                success: true
-              });
-        });
+        passwordHash.verify(req.body.password, user.password)
+          ? jwt.sign(
+              { user },
+              "secretkey",
+              { expiresIn: "1d" },
+              (err, token) => {
+                err
+                  ? res.json({ message: err })
+                  : res.json({
+                      message: "Authenticated",
+                      token,
+                      user,
+                      success: true
+                    });
+              }
+            )
+          : res.json({
+              message: "Invalid Password",
+              success: false
+            });
       } else {
         res.json({ message: "Invalid Username or Password", success: false });
       }
