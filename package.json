@@ -1,0 +1,22 @@
+{
+  "name": "my_mern_commerce",
+  "version": "1.0.0",
+  "description": "practice MERN",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "client": "cd client && npm start",
+    "client-install": "cd client && npm install",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "agumi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.1",
+    "multer": "^1.4.1"
+  }
+}
